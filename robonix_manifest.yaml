@@ -1,0 +1,103 @@
+manifestVersion: 1
+catalog:
+  name: robonix.robot.deep_robotics.lynx_s10
+  version: 0.1.0
+  description: "TODO: describe this robot deployment."
+  license: Apache-2.0
+  tags: [robot, deploy, deep_robotics, lynx_s10, rgbd, vln]
+  maintainers:
+    - ZLC(mujue) <mujue155@gmail.com>
+
+name: robot-deep_robotics-lynx_s10
+
+env:
+  LOG: "INFO"
+
+system:
+  atlas:
+    listen: 127.0.0.1:50051
+    log: info
+  soma:
+    listen: 127.0.0.1:50091
+    robot_yaml: soma.yaml
+  executor:
+    listen: 127.0.0.1:50061
+    log: info
+  pilot:
+    listen: 127.0.0.1:50071
+    log: info
+    vlm:
+      upstream: ${VLM_BASE_URL}
+      api_key: ${VLM_API_KEY}
+      model: ${VLM_MODEL}
+      api_format: openai
+  liaison:
+    listen: 0.0.0.0:50081
+    log: info
+
+primitive:
+  - name: orbbec_camera
+    path: https://github.com/syswonder/primitive-orbbec-camera.git
+    config:
+      camera_name: camera
+      camera_model: gemini330_series
+      color_profile: 640x480x15
+      depth_profile: 640x480x15
+      depth_registration: true
+      enable_color: true
+      enable_depth: true
+      enable_point_cloud: false
+      enable_imu: false
+      device_preset: ""
+      serial_number: ""
+      usb_port: ""
+      sentinel_timeout_s: 30.0
+
+  - name: lynx_chassis
+    path: https://github.com/syswonder/primitive-deep-robotics-lynx-chassis-rbnx.git
+    config:
+      robot_ip: 10.21.33.103
+      robot_port: 30004
+      timeout: 3.0
+      ctl_hz: 20.0
+
+      # ratio：使用 Motion_Ctrl 比例控制
+      # direct：使用 Real_Motion_Ctrl 真实速度控制
+      control_mode: ratio
+
+      # ratio 模式参数
+      forward_ratio: 0.30
+      turn_ratio: 0.40
+      forward_sec_per_meter: 4.0
+      turn_sec_per_degree: 0.0666667
+
+      # direct 模式参数
+      move_v: 0.20
+      turn_w: 0.50
+
+      default_dur: 0.50
+      yaw_sign: 1.0
+      dry_run: false
+
+
+service: []
+
+skill:
+  - name: internvla_navigation
+    path: https://github.com/syswonder/skill-internvla-navigation-rbnx.git
+    config:
+      server_url: http://127.0.0.1:5801
+      client_id: lynx-01
+
+      request_timeout_sec: 100.0
+      camera_timeout_sec: 10.0
+      chassis_timeout_sec: 10.0
+
+      max_steps: 100
+      timeout_sec: 300.0
+      wait_interval_sec: 0.30
+
+      lookahead_m: 0.30
+      discrete_forward_m: 0.25
+      turn_threshold_deg: 15.0
+      discrete_step_deg: 15.0

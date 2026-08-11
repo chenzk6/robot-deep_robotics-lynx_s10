@@ -1,0 +1,25 @@
+urdf:
+  path: ./urdf/lynx_s10.urdf
+  root_link: base_link
+  model_name: deep_robotics_lynx_s10
+
+robot:
+  id: lynx_s10_01
+  display_name: "DEEP Robotics Lynx S10"
+  family: wheeled_quadruped
+  root_part: base
+
+  components:
+    - id: base
+      type: mobile_base
+      urdf_link: base_link
+
+      exports:
+        - provider_id: lynx_chassis
+          capabilities:
+            - path: robonix/primitive/chassis/driver
+              description: "Lynx chassis primitive lifecycle."
+            - path: robonix/primitive/chassis/move
+              description: "Real value low-level Lynx chassis movement."
+            - path: robonix/primitive/chassis/move_ratio
+              description: "Ratio value low-level Lynx chassis movemeent."
