@@ -38,6 +38,7 @@ system:
 primitive:
   - name: orbbec_camera
     path: https://github.com/syswonder/primitive-orbbec-camera.git
+    branch: main
     config:
       camera_name: camera
       camera_model: gemini330_series
@@ -55,6 +56,7 @@ primitive:
 
   - name: lynx_chassis
     path: https://github.com/syswonder/primitive-deep-robotics-lynx-chassis-rbnx.git
+    branch: main
     config:
       robot_ip: 10.21.33.103
       robot_port: 30004
@@ -85,6 +87,7 @@ service: []
 skill:
   - name: internvla_navigation
     path: https://github.com/syswonder/skill-internvla-navigation-rbnx.git
+    branch: main
     config:
       server_url: http://127.0.0.1:5801
       client_id: lynx-01
