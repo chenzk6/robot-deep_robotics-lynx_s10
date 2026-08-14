@@ -2,7 +2,7 @@ manifestVersion: 1
 catalog:
   name: robonix.robot.deep_robotics.lynx_s10
   version: 0.1.0
-  description: "TODO: describe this robot deployment."
+  description: DeepRobotics Lynx S10 wheeled-quadruped deployment — Orbbec RGB-D sensing, Lynx UDP chassis control, and InternVLA vision-language navigation.
   license: Apache-2.0
   tags: [robot, deploy, deep_robotics, lynx_s10, rgbd, vln]
   maintainers:
@@ -37,7 +37,7 @@ system:
 
 primitive:
   - name: orbbec_camera
-    path: https://github.com/syswonder/primitive-orbbec-camera.git
+    url: https://github.com/syswonder/primitive-orbbec-camera
     branch: main
     config:
       camera_name: camera
@@ -55,7 +55,7 @@ primitive:
       sentinel_timeout_s: 30.0
 
   - name: lynx_chassis
-    path: https://github.com/syswonder/primitive-deep-robotics-lynx-chassis-rbnx.git
+    url: https://github.com/syswonder/primitive-deep-robotics-lynx-chassis-rbnx
     branch: main
     config:
       robot_ip: 10.21.33.103
@@ -86,7 +86,7 @@ service: []
 
 skill:
   - name: internvla_navigation
-    path: https://github.com/syswonder/skill-internvla-navigation-rbnx.git
+    url: https://github.com/syswonder/skill-internvla-navigation-rbnx
     branch: main
     config:
       server_url: http://127.0.0.1:5801
